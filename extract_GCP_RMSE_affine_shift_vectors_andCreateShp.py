@@ -154,15 +154,17 @@ for gcp in gcp_coords:
     Yp = transform[3] + gcp[2]*transform[4] + gcp[3]*transform[5];   
     (Xp_trans,Yp_trans) = transformPoint(gcp[0],gcp[1],gcp_wlrd_coord_crs,crs_raster)
     
-    x_shift = Xp_trans - Xp
-    y_shift = Yp_trans - Yp
-    #x_shift =  Xp - Xp_trans
-    #y_shift =  Yp - Yp_trans
+    #x_shift = Xp_trans - Xp
+    #y_shift = Yp_trans - Yp
+    x_shift =  Xp - Xp_trans
+    y_shift =  Yp - Yp_trans
 
     
     shift = np.sqrt(x_shift**2+y_shift**2)
-    angle = np.arctan(y_shift/x_shift)
-    angle_deg = np.arctan(y_shift/x_shift)*180.0/np.pi
+    
+    #angle_deg = np.arctan(y_shift/x_shift)*180.0/np.pi
+    angle_deg = np.arctan2(y_shift,x_shift)*180.0/np.pi
+    
     if angle_deg<0: angle_deg = 360 + angle_deg
     
     print shift,angle_deg
