@@ -2,7 +2,7 @@ import os,subprocess
 import zipfile
 import shutil
 
-zipfolder = r'F:\HISTMAPS\from_USC'
+zipfolder = r'F:\HISTMAPS\from_USC\NEW'
 counter=0
 for root, dirs, files in os.walk(zipfolder, topdown=False):
     for name in files:
@@ -45,10 +45,12 @@ for root, dirs, files in os.walk(zipfolder, topdown=False):
                             os.chdir(root2)
                             s=subprocess.check_output(fullpath, shell=True)
                             print s
+                            del zip_ref
+                            del f
                             break
-        
                 #delete current ZIP file:
-                shutil.rmtree(zipfolder+os.sep+name)
+                os.remove(zipfolder+os.sep+name)
+                
         except:
             print 'ERROR', name
     
