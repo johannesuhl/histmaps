@@ -2,7 +2,7 @@
 
 ## Python code documentation for USGS map processing and information extraction
 
-Johannes H. Uhl
+Johannes Uhl
 
 Department of Geography
 
