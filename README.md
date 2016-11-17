@@ -108,3 +108,24 @@ Reads the map and the corresponding clipped and reprojected output from either o
 It will read the <mapname>_gcp.xml and based on the ground control point (GCP) coordinate pairs it will use least squares adjustment to establish a 2nd order polynomial transformation. It will transform the vector geometry and create a new shapefile. This shapefile should line up better with the raster data, since it accounts for inaccuracies in the GCPs.
 Please use the Boolean parameter use2ndOrderPolynomial.
 
+-----------
+
+## Proposed use of the scripts for map sample extraction:
+
+1) Use any of these scripts to clip vector data to the raster and to reproject it into the map CRS:
+
+   -	Proj_vector2raster.py
+   -	proj_vector2raster_flexibleClipExtents.py
+   -	Proj_vector2raster_andMerge_wParams.py
+   
+2) Use the output *_clip_proj.shp from 1) to adjust it to local map distorsions using TransformVectorBasedOn2ndOrderPolynomial.py. The corrected output is called *_adjusted.shp.
+
+3) Use the output from 2) as vector input for 
+
+    - extractMapPatchesAlongLine.py or 
+    - extractMapPatchesAlongLinePlusNegativeSamples.py
+
+in order to extract training and test samples from the map.
+
+
+
