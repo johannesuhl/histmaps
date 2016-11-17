@@ -3,12 +3,17 @@
 ## Python code documentation for USGS map processing and information extraction
 
 Johannes H. Uhl
+
 Department of Geography
+
 University of Colorado Boulder
+
 Date last modified: 11-16-2016
+
 
 ### Source:
 Python Scripts on GitHub: 	https://github.com/johannesuhl/histmaps
+
 Clone URL:			 https://github.com/johannesuhl/histmaps.git
 
 ## Required libraries:
@@ -68,6 +73,7 @@ Clone URL:			 https://github.com/johannesuhl/histmaps.git
 -	Reprojects shps
 -	Merges reprojected shps
 -	Can be run in command line as follows:
+
 proj_vector2raster_andMerge_wParams.py "input1.shp,input2.shp,input3.shp" "raster.tif" Quadr_name Quadr_State 
 
 ## proj_vector2raster_flexibleClipExtents.py
