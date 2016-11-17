@@ -122,8 +122,8 @@ Please use the Boolean parameter use2ndOrderPolynomial.
 
 3) Use the output from 2) as vector input for 
 
-    - extractMapPatchesAlongLine.py or 
-    - extractMapPatchesAlongLinePlusNegativeSamples.py
+   -	extractMapPatchesAlongLine.py or 
+   -	extractMapPatchesAlongLinePlusNegativeSamples.py
 
 in order to extract training and test samples from the map.
 
