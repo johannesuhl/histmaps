@@ -118,7 +118,11 @@ Please use the Boolean parameter use2ndOrderPolynomial.
    -	proj_vector2raster_flexibleClipExtents.py
    -	Proj_vector2raster_andMerge_wParams.py
    
-2) Use the output *_clip_proj.shp from 1) to adjust it to local map distorsions using TransformVectorBasedOn2ndOrderPolynomial.py. The corrected output is called *_adjusted.shp.
+2) Use the output *_clip_proj.shp from 1) to adjust the vector data to local map distorsions using
+
+   -	TransformVectorBasedOn2ndOrderPolynomial.py. 
+   
+The corrected output is called *_adjusted.shp.
 
 3) Use the output from 2) as vector input for 
 
