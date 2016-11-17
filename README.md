@@ -77,17 +77,19 @@ Clone URL:			 https://github.com/johannesuhl/histmaps.git
 proj_vector2raster_andMerge_wParams.py "input1.shp,input2.shp,input3.shp" "raster.tif" Quadr_name Quadr_State 
 
 ## proj_vector2raster_flexibleClipExtents.py
--	Similar to Proj_vector2raster.py, but different clip extents can be used, according to the following booleans:
-quadrangleIsUserSpecified = True
--	The clip extent is extracted from the quadrangles.shp based on the specified quadrangle name and state.
-findQuadrangleByOverlay = True
--	The clip extent is extracted as the underlying quadrangle from quadrangles.shp based on the location of the map. Useful for batch processing of multiple maps.
-useMapExtentInsteadOfQuadrangles = True
--	For maps that do not match to the quadrangle system (irregular quadrangle exents) the extent of the raster map is used to clip the vector data. Note: The clipped vector data will overlap with the map sheet edges (outside the actual map image).
+- Similar to Proj_vector2raster.py, but different clip extents can be used, according to the following booleans:
+
+- quadrangleIsUserSpecified = True: The clip extent is extracted from the quadrangles.shp based on the specified quadrangle name and state.
+
+- findQuadrangleByOverlay = True: The clip extent is extracted as the underlying quadrangle from quadrangles.shp based on the location of the map. Useful for batch processing of multiple maps.
+
+- useMapExtentInsteadOfQuadrangles = True: For maps that do not match to the quadrangle system (irregular quadrangle exents) the extent of the raster map is used to clip the vector data. Note: The clipped vector data will overlap with the map sheet edges (outside the actual map image).
+
 In addition to that, vector data of an arbitrary coordinate reference system (CRS) can be used. The clip geometry will be reprojected into the vector CRS before clipping. Then the clipped vector data will be reprojected into the raster CRS.
 
 ## TransformVectorBasedOn2ndOrderPolynomial.py
 Reads the map the corresponding clipped and reprojected output from either of these scripts:
+
 -	Proj_vector2raster.py
 -	proj_vector2raster_flexibleClipExtents.py
 -	Proj_vector2raster_andMerge_wParams.py
