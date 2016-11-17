@@ -88,7 +88,7 @@ proj_vector2raster_andMerge_wParams.py "input1.shp,input2.shp,input3.shp" "raste
 In addition to that, vector data of an arbitrary coordinate reference system (CRS) can be used. The clip geometry will be reprojected into the vector CRS before clipping. Then the clipped vector data will be reprojected into the raster CRS.
 
 ## TransformVectorBasedOn2ndOrderPolynomial.py
-Reads the map the corresponding clipped and reprojected output from either of these scripts:
+Reads the map and the corresponding clipped and reprojected output from either of these scripts:
 
 -	Proj_vector2raster.py
 -	proj_vector2raster_flexibleClipExtents.py
