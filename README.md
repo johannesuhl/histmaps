@@ -91,6 +91,7 @@ Reads the map the corresponding clipped and reprojected output from either of th
 -	Proj_vector2raster.py
 -	proj_vector2raster_flexibleClipExtents.py
 -	Proj_vector2raster_andMerge_wParams.py
+
 It will read the <mapname>_gcp.xml and based on the ground control point (GCP) coordinate pairs it will use least squares adjustment to establish a 2nd order polynomial transformation. It will transform the vector geometry and create a new shapefile. This shapefile should line up better with the raster data, since it accounts for inaccuracies in the GCPs.
 Please use the Boolean parameter use2ndOrderPolynomial.
 
