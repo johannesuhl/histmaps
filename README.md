@@ -76,6 +76,17 @@ Clone URL:			 https://github.com/johannesuhl/histmaps.git
 
 proj_vector2raster_andMerge_wParams.py "input1.shp,input2.shp,input3.shp" "raster.tif" Quadr_name Quadr_State 
 
+## extract_GCP_RMSE_affine_shift_vectors_andCreateShp.py
+
+- Creates GCP point shapefile
+- Appends error to the point features
+- Creates error barplot, computes RMSE
+- Writes out txt file with errors
+- Transform 16 grid coordinates
+- Compute differences
+- Decomposes in vector length and angle, appends as attributes to SHP.
+
+
 ## proj_vector2raster_flexibleClipExtents.py
 - Similar to Proj_vector2raster.py, but different clip extents can be used, according to the following booleans:
 
