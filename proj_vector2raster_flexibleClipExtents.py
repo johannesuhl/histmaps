@@ -26,6 +26,14 @@ if quadrangleIsUserSpecified:
 
 findQuadrangleByOverlay = False
 useMapExtentInsteadOfQuadrangles = True
+#if useMapExtentInsteadOfQuadrangles is used, 
+#we can remove the map sheet edges by removing a constant band at the map sheet edges
+removeMapEdge = True 
+#the edge widths have to be measured manually in QGIS previously.
+edge_width_n = 560  #the northern map sheet edge in meters
+edge_width_s = 750  #the southern map sheet edge in meters 
+edge_width_e = 620  #the eastern map sheet edge in meters 
+edge_width_w = 640  #the western map sheet edge in meters 
 
 #------------------------------------------------------------------------------
 
@@ -121,27 +129,98 @@ if findQuadrangleByOverlay:
 
 
 if useMapExtentInsteadOfQuadrangles:
-    #for some maps the quadrangles do not match with the raster. here we use the raster extent to clip the vector data.
-
-    workdir,quads = os.path.split(quadrangles)
-    quad_select=workdir+os.sep+'quadr_select.shp'
-    driver = ogr.GetDriverByName("ESRI Shapefile")
-    if os.path.exists(quad_select):
-        driver.DeleteDataSource(quad_select)
-    outDataSet = driver.CreateDataSource(quad_select)
-    outLayer = outDataSet.CreateLayer("layer", geom_type=ogr.wkbPolygon)
-    # get the output layer's feature definition
-    outLayerDefn = outLayer.GetLayerDefn() 
-    # Add a new field
-    new_field = ogr.FieldDefn('location', ogr.OFTString)
-    outLayer.CreateField(new_field)
-    # Close the Shapefile
-    outDataSet.Destroy()
+    #for some maps the quadrangles do not match with the raster. 
     
-    call = '%s -t_srs "%s" "%s" "%s"' % (gdaltindex, crs_quads, quad_select, map_tiff_geo)
-    print call
-    response=subprocess.check_output(call, shell=True)
-    print response
+    if removeMapEdge:
+        #we take into account the map sheet edge, where we dont want samples.
+        #get corner coords from raster:
+        src = gdal.Open(map_tiff_geo)
+        ulx, xres, xskew, uly, yskew, yres  = src.GetGeoTransform()
+        lrx = ulx + (src.RasterXSize * xres)
+        lry = uly + (src.RasterYSize * yres) 
+        
+        #account for map sheet edges:
+        #coords are in raster CRS
+        ulx = ulx + edge_width_w
+        uly = uly - edge_width_n
+        lrx = lrx - edge_width_e
+        lry = lry + edge_width_s        
+        urx = lrx
+        ury = uly
+        llx = ulx
+        lly = lry
+        #reproject corner coords into vector CRS:
+        (ulx2,uly2) = transformPoint(ulx,uly,crs_raster,crs_vector)
+        (llx2,lly2) = transformPoint(llx,lly,crs_raster,crs_vector)
+        (lrx2,lry2) = transformPoint(lrx,lry,crs_raster,crs_vector)
+        (urx2,ury2) = transformPoint(urx,ury,crs_raster,crs_vector)
+        
+        #now create a polygon feature from the corner coordinates:
+        workdir,quads = os.path.split(quadrangles)
+        quad_select=workdir+os.sep+'quadr_select.shp'
+        driver = ogr.GetDriverByName('Esri Shapefile')
+        ds = driver.CreateDataSource(quad_select)
+        if os.path.exists(quad_select):
+            driver.DeleteDataSource(quad_select)
+        outDataSet = driver.CreateDataSource(quad_select)       
+        outLayer = outDataSet.CreateLayer("layer", geom_type=ogr.wkbPolygon)
+        outLayer.CreateField(ogr.FieldDefn('ID', ogr.OFTInteger))
+        # get the output layer's feature definition
+        outLayerDefn = outLayer.GetLayerDefn()         
+        #write polygon to shp:               
+        # Create ring
+        ring = ogr.Geometry(ogr.wkbLinearRing)
+        ring.AddPoint(float(llx2),float(lly2))
+        ring.AddPoint(float(lrx2),float(lry2))
+        ring.AddPoint(float(urx2),float(ury2))
+        ring.AddPoint(float(ulx2),float(uly2))
+        ring.AddPoint(float(llx2),float(lly2))               
+        # Create polygon
+        poly = ogr.Geometry(ogr.wkbPolygon)
+        poly.AddGeometry(ring) 
+        feat = ogr.Feature(outLayerDefn)
+        feat.SetField('ID', 0)
+        feat.SetGeometry(poly)
+        outLayer.CreateFeature(feat)
+        # destroy instances
+        feat.Destroy()
+        ds.Destroy()
+        outDataSet.Destroy()
+        feat = geom = None                     
+        ds = outLayer = None         
+        
+        
+        #create prj file:
+        spatialRef = osr.SpatialReference()
+        spatialRef.ImportFromProj4(crs_vector)
+        spatialRef.MorphToESRI()
+        file = open(quad_select.replace('.shp','.prj'), 'w')
+        file.write(spatialRef.ExportToWkt())
+        file.close()   
+        
+    else:
+        #here we use the raster extent to clip the vector data (including map sheet edges).
+        workdir,quads = os.path.split(quadrangles)
+        quad_select=workdir+os.sep+'quadr_select.shp'
+        driver = ogr.GetDriverByName("ESRI Shapefile")
+        if os.path.exists(quad_select):
+            driver.DeleteDataSource(quad_select)
+        outDataSet = driver.CreateDataSource(quad_select)
+        outLayer = outDataSet.CreateLayer("layer", geom_type=ogr.wkbPolygon)
+        # get the output layer's feature definition
+        outLayerDefn = outLayer.GetLayerDefn() 
+        # Add a new field
+        new_field = ogr.FieldDefn('location', ogr.OFTString)
+        outLayer.CreateField(new_field)
+        # Close the Shapefile
+        outDataSet.Destroy()
+        #gdaltindex creates a tile index of the raster (the covered area as a polygon feature)
+        call = '%s -t_srs "%s" "%s" "%s"' % (gdaltindex, crs_quads, quad_select, map_tiff_geo)
+        print call
+        response=subprocess.check_output(call, shell=True)
+        print response        
+        
+        
 
 
 #check if clip rectangle and vector SRS is identical, if not, reproject rectangle to vector SRS:
