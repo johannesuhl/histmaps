@@ -17,6 +17,7 @@ quadrangles = r'F:\HISTMAPS\DOWNLOADS_USGS\QUADRANGLES\USGS_24k_Topo_Map_Boundar
 
 sampledist = 40     #distance of interpolated points along the polyline
 winsize = 60        #windowsize of cropped image
+neg_sample_grid_factor = 10 #controls nergative sample grid distance, multiplied with winsize
 
 #full path to gdal executables
 gdalsrsinfo = r'C:\OSGeo4W\bin\gdalsrsinfo.exe'
@@ -215,8 +216,8 @@ ur = transformPoint(quad_urx,quad_ury,crs_quads,crs_raster)
 
 #create point raster within coord extent using windowsize as distance
 pointsList_neg = []  
-for x in range(int(ll[0]+0.5*winsize), int(ur[0]-0.5*winsize), winsize):
-    for y in range(int(ll[1]+0.5*winsize), int(ur[1]-0.5*winsize), winsize):
+for x in range(int(ll[0]+0.5*winsize), int(ur[0]-0.5*winsize), winsize*neg_sample_grid_factor):
+    for y in range(int(ll[1]+0.5*winsize), int(ur[1]-0.5*winsize), winsize*neg_sample_grid_factor):
             point = Point(x, y)
             pointsList_neg.append(point)
 
