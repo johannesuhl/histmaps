@@ -144,6 +144,6 @@ It also creates a txt file containing the paths of all input sample files. Then 
 
 2) Then use create_tSNE_plots.py. This script requires Matlab. It also needs batch_tsne_embedding.m, a Matlab script file. For each input folder, the .m file is executed in Matlab. The .m file reads the t-SNE coordinates and the txt containing the sample image filenames and creates two images: the sample images as thumbnails in their original location in the 2d t-SNE space, and a rectified version (using some nearest neighbor technique). The size of the thumbnails can be controlled in create_tSNE_plots.py as well.
 
-## Creating nice confusion matrices heatmaps using seaborn:
+## Creating nice confusion matrices using seaborn heatmaps:
 
 confmat_viz.py contains a code snippet for plotting confusion matrices using seaborn heatmaps.
