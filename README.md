@@ -137,7 +137,7 @@ in order to extract training and test samples from the map.
 
 After classifying the samples you can use the following scripts to visualize the performance / outputs of the classifier:
 
-## Creating t-SNE plots using scikit-learn and Matlab:
+## Creating t-SNE plots using scikit-learn, OpenCV and Matlab:
 
 1) Use create_tSNE_data.py. This script reads all samples in a folder (or a list of folders containing samples of each class in a separate folder), stacks them to a data cube and writes the cube to a txt file.
 It also creates a txt file containing the paths of all input sample files. Then the data cube is reduces to two dimensions, while maintaining the pairwise distance between the images. The resulting 2d coordinates are outputted to a txt, and a scatterplot is created and saved to file as well. See the t-SNE publication here: https://lvdmaaten.github.io/publications/papers/JMLR_2008.pdf.
