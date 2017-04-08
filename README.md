@@ -147,3 +147,13 @@ It also creates a txt file containing the paths of all input sample files. Then 
 ## Creating nice confusion matrices using seaborn heatmaps:
 
 confmat_viz.py contains a code snippet for plotting confusion matrices using seaborn heatmaps.
+
+## Batch clip USGS map tif files to the actual quadrangle extents:
+
+clip_map_to_quadrangle.py
+
+Parameters:
+- data_dir is a folder containing one or multiple maps. these should be in subfolders created by unzipping the USGS zip files using the script ApplyGCPbatForAllTiffs.py, e.g. data_dir\<mapname>\data\
+- data must contain the *_geo.tif created by ApplyGCPbatForAllTiffs.py
+- data must also contain quadr_<quadrangle_name>_<quadrangle_state>.shp created by the vector preprocessing script proj_vector2raster.py
+- output will be *_geo_clip.tif in data_dir directly.
