@@ -3,13 +3,11 @@
 ## Python code documentation for USGS map processing and information extraction
 
 Johannes Uhl
-
 Department of Geography
-
 University of Colorado Boulder
 
-Date last modified: March 2017
-
+<img width="800" alt="Color moments and t-SNE based historical map content exploration" src="https://github.com/johannesuhl/histmaps/blob/master/img4.jpg">
+Fig. 1: Color moments and t-SNE based historical map content exploration.
 
 ### Source:
 Python Scripts on GitHub: 	https://github.com/johannesuhl/histmaps
